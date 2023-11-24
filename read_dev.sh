@@ -1,8 +1,9 @@
 # run dev
-CUDA_VISIBLE_DEVICES=1 \
 python read.py \
-    --batch_size 4 \
-    --load_dir generation_best \
-    --output_dir generation_best \
+    --batch_size 8 \
+    --load_dir read1 \
+    --output_dir read2 \
+    --dev_data_path './Data/HybridQA/dev.row.json' \
+    --predict_save_path './Data/HybridQA/dev_answers.json'\
     --is_train 0 \
     --is_test 0

@@ -105,7 +105,7 @@ class TypeDataset(Dataset):
         self.data = []
         # import pdb; pdb.set_trace()
         for data in tqdm(total_data):
-            path = '/home/lfy/UMQM/Data/HybridQA/WikiTables-WithLinks'
+            path = 'Data/HybridQA/WikiTables-WithLinks'
             table_id = data['table_id']
             with open('{}/tables_tok/{}.json'.format(path, table_id), 'r') as f:
                 table = json.load(f)  
@@ -306,7 +306,7 @@ def test_file(model, loader, logger):
 def main():
     device = torch.device("cuda")
     parser = argparse.ArgumentParser()
-    parser.add_argument('--ptm_type', type=str, default='bert-base', help='Pre-trained model to use')
+    parser.add_argument('--ptm_type', type=str, default='deberta', help='Pre-trained model to use')
     parser.add_argument('--train_data_path', type=str, default='./Data/HybridQA/train.p.json', help='Path to training data')
     parser.add_argument('--dev_data_path', type=str, default='./Data/HybridQA/dev.p.json', help='Path to development data')
     parser.add_argument('--predict_save_path', type=str, default='./Data/HybridQA/dev.row.json', help='Path to save predictions')
@@ -351,7 +351,7 @@ def main():
     ckpt_file = 'ckpt.pt'
     load_ckpt_file = 'ckpt.pt'
     n_gpu = torch.cuda.device_count()
-    notice = f'is_train={is_train}, is_test={is_test}, is_firststage={is_firststage}, lr={learning_rate}, epoch_num={epoch_nums}'
+    notice = f'n_gpu={n_gpu} is_train={is_train}, is_test={is_test}, is_firststage={is_firststage}, lr={learning_rate}, epoch_num={epoch_nums}'
 
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     Path(load_dir).mkdir(parents=True, exist_ok=True)
@@ -372,7 +372,7 @@ def main():
     logger.info(f"train data: {len(train_data)}, dev data: {len(dev_data)}")
     
     if ptm_type == 'bert-large':
-        ptm_path = './PTM/bert-large-uncased'
+        ptm_path = 'bert-large-uncased'
         logger.info(f"loading PTM model......from {ptm_path}")
         tokenizer = BertTokenizer.from_pretrained(ptm_path)
         bert_model = BertModel.from_pretrained(ptm_path)
@@ -380,7 +380,7 @@ def main():
         tokenizer.add_special_tokens(special_tokens_dict)
         bert_model.resize_token_embeddings(len(tokenizer))
     elif ptm_type == 'bert-base':
-        ptm_path = './PTM/bert-base-uncased'
+        ptm_path = 'bert-base-uncased'
         logger.info(f"loading PTM model......from {ptm_path}")
         tokenizer = BertTokenizer.from_pretrained(ptm_path)
         bert_model = BertModel.from_pretrained(ptm_path)
@@ -388,7 +388,7 @@ def main():
         tokenizer.add_special_tokens(special_tokens_dict)
         bert_model.resize_token_embeddings(len(tokenizer))
     elif ptm_type == 'deberta':
-        ptm_path = './PTM/deberta-base'
+        ptm_path = 'microsoft/deberta-base'
         logger.info(f"loading PTM model......from {ptm_path}")
         tokenizer = AutoTokenizer.from_pretrained(ptm_path)
         bert_model = AutoModel.from_pretrained(ptm_path)

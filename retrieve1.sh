@@ -1,4 +1,3 @@
-CUDA_VISIBLE_DEVICES=5 \
 python retrieve.py \
     --batch_size 1 \
     --epoch_nums 5 \
